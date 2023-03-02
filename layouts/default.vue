@@ -1,5 +1,10 @@
+<script setup lang="ts">
+	import { useFps } from '@vueuse/core'
+	let fps = useFps()
+</script>
 <template>
 	<div>
+		<div class="fps">Fps: {{ fps }}</div>
 		<CommonHeader></CommonHeader>
 		<main>
 			<slot />
@@ -8,14 +13,27 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 	.link {
 		margin-right: 1rem;
 	}
 	main {
 		color: white;
+		min-height: 100vh;
+	}
+	.fps {
+		position: fixed;
+		z-index: 999;
+		bottom: 0;
+		left: 50px;
+		width: 100px;
+		height: 60px;
+		line-height: 60px;
+		color: aquamarine;
+		text-align: center;
 	}
 	footer {
+		color: aliceblue;
 		display: flex;
 		align-items: center;
 		justify-content: center;

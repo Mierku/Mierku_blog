@@ -1,12 +1,51 @@
 <script lang="ts" setup>
+	const navbar = ref<HTMLElement | null>()
+	let windowRef
+	if (process.client) {
+		windowRef = ref<Window>(window)
+	}
+	const route = useRoute()
+	console.log(route)
+	const curIndex = ref(0)
+	// curIndex.value = route.fullPath.replace(/^\/([^\/]*).*$/, '$1')
+
+	const smooth = ref(true)
+	let hidden = false
+	const behavior = computed(() => (smooth.value ? 'smooth' : 'auto'))
+	const { x, y, isScrolling, directions } = useScroll(windowRef, { behavior })
+	const {
+		left: toLeft,
+		right: toRight,
+		top: toTop,
+		bottom: toBottom,
+	} = toRefs(directions)
+	const navitem = ref<HTMLLIElement>()
+	//
+	// 导航栏隐藏机制
+	const isHidden = computed(() => {
+		if (y.value > 700) {
+			if (toBottom.value) {
+				hidden = true // 不显示
+			} else if (toTop.value) {
+				hidden = false // 显示
+			}
+		} else hidden = false
+
+		return hidden
+	})
 	const navList = reactive([
-		{ id: 1, title: '首页', to: 'http://localhost:3000/home' },
+		{ id: 1, title: '首页', to: '/home' },
 		{ id: 2, title: '归档', to: '/' },
 		{ id: 3, title: '文章', to: '/home' },
+		{ id: 4, title: '友链', to: '/home' },
+		{ id: 5, title: '留言板', to: '/home' },
 	])
 </script>
 <template>
-	<header class="site-header">
+	<header
+		ref="navbar"
+		:class="['site-header', isHidden ? 'hidden' : '']"
+	>
 		<div class="header-logo">
 			<span class="logo-icon"></span>
 			<ruby class="logo-text">
@@ -17,20 +56,18 @@
 		</div>
 		<ul class="header-nav">
 			<li
-				class="header-nav-item"
-				v-for="item in navList"
+				ref="navitem"
+				:class="['header-nav-item', curIndex === index ? 'current' : '']"
+				v-for="(item, index) in navList"
 				:key="item.id"
 			>
 				<NuxtLink :to="item.to">
 					{{ item.title }}
 				</NuxtLink>
 			</li>
+			<div class="slider"></div>
 		</ul>
 	</header>
-	<!-- <div
-		class="header-block"
-		style="height: 60px"
-	></div> -->
 </template>
 
 <style lang="scss">
@@ -46,6 +83,10 @@
 		height: 60px;
 		width: 100%;
 		color: white;
+		transition: all 0.3s linear;
+		&.hidden {
+			transform: translateY(-60px);
+		}
 		.header-logo {
 			height: inherit;
 			display: flex;
@@ -60,9 +101,31 @@
 			height: inherit;
 			display: flex;
 			align-items: center;
+
 			.header-nav-item {
+				display: flex;
+				align-items: center;
+				height: inherit;
 				padding: 0 12px;
+				font-weight: 400;
+				&:hover {
+					animation: move-up-down 0.4s ease-in-out 1;
+				}
+				&.current {
+					color: black;
+				}
 			}
+		}
+	}
+	@keyframes move-up-down {
+		0% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-12px);
+		}
+		100% {
+			transform: translateY(0px);
 		}
 	}
 </style>

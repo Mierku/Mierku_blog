@@ -6,9 +6,7 @@
 	<div>
 		<div class="fps">Fps: {{ fps }}</div>
 		<CommonHeader></CommonHeader>
-		<main>
-			<slot />
-		</main>
+		<main><slot /></main>
 		<footer>Crafted by Mierku</footer>
 	</div>
 </template>

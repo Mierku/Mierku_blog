@@ -3,13 +3,13 @@
 	import hljs from 'highlight.js'
 	import 'highlight.js/scss/tokyo-night-dark.scss' // 引入高亮样式 这里我用的是sublime样式
 	import { getArticle } from '~~/composables/useArticleList'
-	const props = defineProps({
-		data: {} as PropType<getArticle>,
-	})
-	const article = props.data
+	// const props = defineProps({
+	// 	data: {} as PropType<getArticle>,
+	// })
+	// const article = props.data
+	const article: getArticle = inject('article')
 	const markdownToHtml = shallowRef()
 	const cdate = useDateFormat(article.cdate, 'YYYY-MM-DD HH:mm:ss')
-	//基本配置与代码高亮配置
 	marked.setOptions({
 		renderer: new marked.Renderer(),
 		pedantic: false,
@@ -22,7 +22,14 @@
 			return hljs.highlightAuto(code).value
 		},
 	})
-	markdownToHtml.value = marked(article.articleDoc.content, { breaks: true })
+	//基本配置与代码高亮配置
+	onMounted(() => {
+		markdownToHtml.value = marked(article.articleDoc.content, {
+			breaks: true,
+		})
+	})
+
+	console.log(markdownToHtml.value)
 </script>
 <template>
 	<div class="cur-content">

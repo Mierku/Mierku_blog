@@ -9,21 +9,21 @@ export default defineNuxtConfig({
 			baseURL: '',
 		},
 	},
-	modules: ['@nuxt/content', '@element-plus/nuxt', '@vueuse/nuxt'],
-	content: {
-		highlight: {
-			// Theme used in all color schemes.
-			theme: 'github-dark',
-			// OR
-			// theme: {
-			// 	// Default theme (same as single string)
-			// 	default: 'github-light',
-			// 	// Theme used if `html.dark`
-			// 	dark: 'github-dark',
-			// 	// Theme used if `html.sepia`
-			// 	sepia: 'monokai',
-			// },
-		},
-	},
+	modules: ['@element-plus/nuxt', '@vueuse/nuxt'],
+	// content: {
+	// 	highlight: {
+	// 		// Theme used in all color schemes.
+	// 		theme: 'github-dark',
+	// 		// OR
+	// 		// theme: {
+	// 		// 	// Default theme (same as single string)
+	// 		// 	default: 'github-light',
+	// 		// 	// Theme used if `html.dark`
+	// 		// 	dark: 'github-dark',
+	// 		// 	// Theme used if `html.sepia`
+	// 		// 	sepia: 'monokai',
+	// 		// },
+	// 	},
+	// },
 	css: ['@/assets/style/base.scss'],
 })

@@ -1,12 +1,25 @@
 <script lang="ts" setup>
 	import { marked } from 'marked'
 	import { getArticle } from '@/composables/useArticleList'
+	import { UseScrollReturn } from '@vueuse/core'
+	import { vScroll } from '@vueuse/components'
+	import { vIntersectionObserver } from '@vueuse/components'
+	interface tocItem {
+		anchor: string
+		level: number
+		text: string
+	}
 	const toc = ref('')
-	const props = defineProps({
-		data: {} as PropType<getArticle>,
+	const target = ref(null)
+	const isVisible = ref(false)
+	const UList = ref<HTMLUListElement>()
+	const UItem = ref<HTMLLIElement>()
+	const tocItems = ref<Array<tocItem>>([])
+	useIntersectionObserver(target, ([{ isIntersecting }]) => {
+		isVisible.value = isIntersecting
 	})
-	const article = props.data
-
+	const article: getArticle = inject('article')
+	const tocIndex: Ref<number> = inject('toc')
 	function slugify(text) {
 		console.log(text)
 		return (
@@ -26,7 +39,7 @@
 
 		items.forEach((item) => {
 			if (item.level > lastLevel) {
-				html += '<ul>'
+				html += '<ul >'
 			} else if (item.level < lastLevel) {
 				html += '</li></ul>'.repeat(lastLevel - item.level)
 			} else {
@@ -44,41 +57,71 @@
 
 		return html
 	}
+	function getLiDom() {}
 	onMounted(() => {
 		const renderer = new marked.Renderer()
-		let tocItems = []
+
 		// Override the `heading` method to add TOC entries
 		renderer.heading = (text, level, raw) => {
 			console.log(raw)
 			const anchor = slugify(raw)
 			console.log(anchor)
-			tocItems.push({ anchor, level, text })
+			tocItems.value.push({ anchor, level, text })
+			console.log(tocItems)
 			return `<h${level} id="${anchor}">${text}</h${level}>`
 		}
 		const tokens = marked.lexer(article.articleDoc.content)
 		const html = marked.parser(tokens, { renderer })
-		toc.value = generateTOC(tocItems)
-		console.log(toc.value)
+		toc.value = generateTOC(tocItems.value)
 	})
 </script>
 <template>
-	<div class="category">
-		<div class="title-wrapper">
-			<span class="title">目录</span>
+	<div
+		class="category-box"
+		ref="target"
+	>
+		<div :class="['category', isVisible ? '' : 'fixed']">
+			<div class="title-wrapper">
+				<span class="title">目录</span>
+			</div>
+			<div
+				class="toc"
+				v-html="toc"
+			></div>
+			<!-- <div class="toc">
+				<ul ref="UList">
+					<li
+						ref="UItem"
+						v-for="(item, index) in tocItems"
+						:key="item.anchor"
+						:class="[tocIndex === index ? 'active' : '', tocIndex]"
+					>
+						<a :href="`#${item.anchor}`">{{ item.text }}</a>
+					</li>
+				</ul>
+			</div> -->
 		</div>
-		<div
-			class="toc"
-			v-html="toc"
-		></div>
 	</div>
 </template>
-<style lang="scss" scoped>
+<style lang="scss">
+	.category-box {
+		margin-top: 36px;
+		width: 300px;
+		height: fit-content;
+		position: relative;
+		flex: content;
+	}
 	.category {
 		padding: 6px 12px;
 		width: 300px;
 		height: fit-content;
 		border-radius: 12px;
 		background: rgba(25, 25, 25, 0.4);
+		&.fixed {
+			animation: fade-in ease-in 0.4s 1;
+			position: fixed;
+			top: 64px;
+		}
 		.title-wrapper {
 			height: 36px;
 			line-height: 36px;
@@ -89,6 +132,40 @@
 				font-size: 18px;
 				font-weight: 600;
 			}
+		}
+	}
+	.toc {
+		height: fit-content;
+		ul {
+			height: auto;
+			a {
+				height: 40px;
+				line-height: 40px;
+			}
+		}
+		li {
+			li {
+				font-size: 15px;
+				text-indent: 1em;
+			}
+			&.active > a {
+				color: rgb(28, 235, 200, 1);
+			}
+		}
+	}
+
+	.anchor {
+		position: absolute;
+		/*控制距离顶部 100px*/
+		top: -100px;
+		visibility: hidden;
+	}
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
 		}
 	}
 </style>

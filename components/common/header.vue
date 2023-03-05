@@ -6,8 +6,8 @@
 	}
 	const route = useRoute()
 	console.log(route)
-	const curIndex = ref(0)
-	// curIndex.value = route.fullPath.replace(/^\/([^\/]*).*$/, '$1')
+	const curIndex = ref('')
+	curIndex.value = route.fullPath.replace(/^\/([^\/]*).*$/, '$1')
 
 	const smooth = ref(true)
 	let hidden = false
@@ -35,10 +35,10 @@
 	})
 	const navList = reactive([
 		{ id: 1, title: '首页', to: '/home' },
-		{ id: 2, title: '归档', to: '/' },
-		{ id: 3, title: '文章', to: '/home' },
-		{ id: 4, title: '友链', to: '/home' },
-		{ id: 5, title: '留言板', to: '/home' },
+		{ id: 2, title: '归档', to: '/timeline' },
+		{ id: 3, title: '文章', to: '/blog' },
+		{ id: 4, title: '友链', to: '/' },
+		{ id: 5, title: '留言板', to: '/' },
 	])
 </script>
 <template>
@@ -57,7 +57,10 @@
 		<ul class="header-nav">
 			<li
 				ref="navitem"
-				:class="['header-nav-item', curIndex === index ? 'current' : '']"
+				:class="[
+					'header-nav-item',
+					`/${curIndex}` === item.to ? 'current' : '',
+				]"
 				v-for="(item, index) in navList"
 				:key="item.id"
 			>
@@ -111,10 +114,15 @@
 				&:hover {
 					animation: move-up-down 0.4s ease-in-out 1;
 				}
-				&.current {
-					color: black;
+				a {
+					height: 100%;
+					width: 100%;
+					line-height: 60px;
 				}
 			}
+		}
+		.router-link-active {
+			color: aquamarine;
 		}
 	}
 	@keyframes move-up-down {

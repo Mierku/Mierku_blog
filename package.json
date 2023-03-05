@@ -18,12 +18,15 @@
     "sass": "^1.58.3"
   },
   "dependencies": {
-    "@nuxt/content": "^2.4.3",
+    "@nuxtjs/composition-api": "^0.33.1",
+    "@pinia/nuxt": "^0.4.7",
     "@types/marked": "^4.0.8",
     "@types/node": "^18.14.0",
+    "@vueuse/components": "^9.13.0",
     "babel-runtime": "^6.26.0",
     "element-plus": "^2.2.31",
     "highlight.js": "^11.7.0",
-    "marked": "^4.2.12"
+    "marked": "^4.2.12",
+    "pinia": "^2.0.32"
   }
 }

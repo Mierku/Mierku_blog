@@ -1,133 +1,80 @@
 <script lang="ts" setup>
-	// const activities = [
-	// 	{
-	// 		content: 'Event start',
-	// 		date: '2018-05',
-	// 		timestamp: '2018-05-15',
-	// 	},
-	// 	{
-	// 		content: 'Approved',
-	// 		date: '2018-05',
-	// 		timestamp: '2018-05-13',
-	// 	},
-	// 	{
-	// 		content: 'Success',
-	// 		date: '2018-05',
-	// 		timestamp: '2018-05-13',
-	// 	},
-	// 	{
-	// 		content: 'Event start',
-	// 		date: '2018-04',
-	// 		timestamp: '2018-04-15',
-	// 	},
-	// 	{
-	// 		content: 'Approved',
-	// 		date: '2018-04',
-	// 		timestamp: '2018-04-13',
-	// 	},
-	// 	{
-	// 		content: 'Success',
-	// 		date: '2018-04',
-	// 		timestamp: '2018-04-11',
-	// 	},
-	// ]
-
-	const activities = [
-		{
-			date: '2018-05',
-			children: [
-				{
-					content: 'Event start',
-					timestamp: '2018-05-15',
-				},
-				{
-					content: 'Approved',
-					timestamp: '2018-05-13',
-				},
-				{
-					content: 'Success',
-					timestamp: '2018-05-13',
-				},
-			],
-		},
-		{
-			date: '2018-04',
-			children: [
-				{
-					content: 'Event start',
-					timestamp: '2018-04-15',
-				},
-				{
-					content: 'Approved',
-					timestamp: '2018-04-13',
-				},
-				{
-					content: 'Success',
-					timestamp: '2018-04-13',
-				},
-			],
-		},
-	]
+import { TimeLineItem, useTimeLine } from '~~/composables/api/useArticleList'
+import TimeLineCard from '~~/components/timeline/Card.vue'
+const activeName = ref('1')
+const { data } = await useTimeLine()
+let articleList = reactive<Array<TimeLineItem>>([])
+console.log(data)
+if (data.value) {
+  console.log(data)
+  articleList = data.value.data
+}
 </script>
-
 <template>
-	<NuxtLayout>
-		<div class="timeline-content">
-			<el-timeline class="timeline">
-				<!-- 循环判断索引的奇偶区分开左右 -->
-				<el-timeline-item
-					v-for="(activity, index) in activities"
-					:key="index"
-					:class="index % 2 === 0 ? 'timeline-left' : 'timeline-right'"
-					:timestamp="activity.date"
-					placement="top"
-				>
-					<el-card
-						v-for="(item, index) in activity.children"
-						:key="index"
-					>
-						<h4>{{ item.timestamp }}</h4>
-						<p>{{ item.content }}</p>
-					</el-card>
-				</el-timeline-item>
-			</el-timeline>
-		</div>
-	</NuxtLayout>
+  <NuxtLayout>
+    <main class="site-timeline">
+      <div class="tl-header">文章</div>
+      <div class="tl-wrapper">
+        <!-- <div class="tl-post-mod_year" v-for="yearMap in articleList">
+          {{ yearMap.year }}
+          <div class="tl-post-mod_month"></div>
+        </div> -->
+        <div v-if="articleList.length === 0" class="tl-empty">无文章发布</div>
+        <el-collapse v-else v-model="activeName" accordion>
+          <el-collapse-item v-for="yearMap in articleList" :title="yearMap.year.toString()" :name="yearMap.year">
+            <div v-for="monthMap in yearMap.rows" :key="monthMap.month">
+              <h2 class="month-text">{{ monthMap.month }}月</h2>
+              <TimeLineCard v-for="item in monthMap.children" :key="item.aid" :aid="item.aid" :article="item">
+              </TimeLineCard>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </main>
+  </NuxtLayout>
 </template>
 
-<style scoped>
-	/* `el-timeline`的容器`padding` */
-	.timeline-content {
-		padding: 80px;
-	}
-	.timeline {
-		padding: 50px;
-	}
-	/* 右侧`el-timeline-item`的样式，将原始时间轴组件整体移动到右半侧 */
-	.timeline-right {
-		left: 50%;
-		width: 50%;
-	}
-	/* 左侧`el-timeline-item`的样式，同上，仅是为了方便下面的CSS样式修改 */
-	.timeline-left {
-		left: 50%;
-		width: 50%;
-	}
-	/* 针对左侧内容修改样式，注意这里使用的scss */
-	.timeline-left :deep(.el-timeline-item__wrapper) {
-		right: 100%;
-		padding: 0 19px 0 0;
-		text-align: right;
-	}
-	.el-card {
-		margin-bottom: 24px;
-	}
-	:deep(.el-card__body) {
-		background-color: #272727;
-	}
-	:deep(.el-card) {
-		--el-border-color-light: rgba(36, 36, 36, 0.4);
-		--el-card-bg-color: #272727;
-		--el-text-color-primary: white;
-	}
+<style lang="scss" scoped>
+.site-timeline {
+  padding: 60px;
+  margin-top: 46px;
+  width: 1440px;
+  min-height: 100vh;
+  margin: auto;
+  color: azure;
+}
+.tl-header {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  font-size: 24px;
+  border-bottom: 1px solid rgba(119, 119, 119, 0.4);
+}
+.tl-wrapper {
+  padding: 24px;
+  height: 80vh;
+}
+.tl-empty {
+  color: white;
+}
+.el-collapse {
+  margin-top: 30px;
+  padding: 24px;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+.month-text {
+  color: white;
+}
+:deep(.el-collapse-item__wrap) {
+  background: transparent;
+}
+:deep(.el-collapse-item__header) {
+  background: transparent;
+  color: white;
+}
 </style>

@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: 构建镜像
         run: docker build -t registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 --build-arg URL=${{ secrets.BASE_API }} .
-              - name: 登录阿里云的 docker 镜像仓库
+      - name: 登录阿里云的 docker 镜像仓库
         uses: aliyun/acr-login@v1
         with:
           login-server: https://registry.cn-shenzhen.aliyuncs.com

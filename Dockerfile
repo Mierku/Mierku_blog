@@ -1,4 +1,4 @@
-FROM registry.cn-heyuan.aliyuncs.com/mierku_blog/mynode
+FROM registry.cn-heyuan.aliyuncs.com/mierku_blog/mynode:1
 ARG URL
 ARG APP_URL
 ENV NUXT_PUBLIC_BASE_URL=${URL}

@@ -37,10 +37,11 @@ jobs:
           # ssh port
           port: 22
           # ssh username
-          username: ${{ secrets.chekctou }}
+          username: ${{ secrets.SERVER_USER }}
           # ssh password
           password: ${{ secrets.SERVER_PASS  }}
           script: |
             docker login --username=$ACR_USERNAME registry.cn-heyuan.aliyuncs.com
+            echo $ACR_PASS
             docker pull registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
             docker run registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 -d --restart=always --name blog-nuxt

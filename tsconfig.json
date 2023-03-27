@@ -1,8 +1,8 @@
 {
-	// https://v3.nuxtjs.org/concepts/typescript
-	"extends": "./.nuxt/tsconfig.json",
-	"compilerOptions": {
-		"strict": false,
-		"types": ["@types/node"]
-	}
+  // https://v3.nuxtjs.org/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": false,
+    "types": ["@types/node"]
+  }
 }

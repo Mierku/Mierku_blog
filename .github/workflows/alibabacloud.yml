@@ -1,0 +1,46 @@
+name: BLOG部署
+
+on:
+  # 在直接推送/pr到Main分支时触发
+  push:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 构建镜像
+        run: docker build -t registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 --build-arg URL=${{ secrets.BASE_API }} .
+      - name: 登录阿里云的 docker 镜像仓库
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.cn-shenzhen.aliyuncs.com
+          region-id: mierku_blog # 3
+          username: '${{ secrets.ACR_USERNAME }}'
+          password: '${{ secrets.ACR_PASSWORD }}'
+      - name: 推送到阿里云仓库
+        run: docker push registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: 部署项目
+        uses: appleboy/ssh-action@v0.1.8
+        env:
+          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+          ACR_PASS: ${{ secrets.ACR_PASSWORD }}
+        with:
+          # ssh host
+          host: ${{ secrets.SERVER_HOST }}
+          # ssh port
+          port: 22
+          # ssh username
+          username: ${{ secrets.chekctou }}
+          # ssh password
+          password: ${{ secrets.SERVER_PASS  }}
+          script: |
+            docker login --username=$ACR_USERNAME registry.cn-heyuan.aliyuncs.com
+            docker pull registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
+            docker run registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 -d --restart=always --name blog-nuxt

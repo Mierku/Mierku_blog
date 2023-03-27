@@ -1,0 +1,16 @@
+.nuxt
+.output
+.vscode
+node_modules
+Dockerfile
+.dockerignore
+.git
+.github
+.gitignore
+.eslintignore
+.eslintrc.js
+.prettierignore
+.prettierrc.js
+.stylelintignore
+.stylelintrc.js
+*.md

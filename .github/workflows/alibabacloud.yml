@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 登录阿里云的 docker 镜像仓库
+      - name: 构建镜像
+        run: docker build -t registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 --build-arg URL=${{ secrets.BASE_API }} .
+              - name: 登录阿里云的 docker 镜像仓库
         uses: aliyun/acr-login@v1
         with:
           login-server: https://registry.cn-shenzhen.aliyuncs.com
           region-id: mierku_blog # 3
           username: '${{ secrets.ACR_USERNAME }}'
           password: '${{ secrets.ACR_PASSWORD }}'
-      - name: 构建镜像
-        run: docker build -t registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1 --build-arg URL=${{ secrets.BASE_API }} .
       - name: 推送到阿里云仓库
         run: docker push registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
 

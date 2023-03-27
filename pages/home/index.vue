@@ -82,7 +82,7 @@ function pre() {}
             </div>
             <aside>
               <div class="aside-card">
-                <img class="right" src="https://s2.loli.net/2023/03/18/glhcOT2FyRxtGrz.png" alt="" />
+                <img class="right" src="https://s2.loli.net/2023/03/27/Ee76wafvlWMd4ZR.png" alt="" />
               </div>
             </aside>
           </div>
@@ -101,7 +101,7 @@ function pre() {}
             </div>
             <aside>
               <div class="aside-card">
-                <img class="left" src="https://s2.loli.net/2023/03/18/vrwVWI1hAqyOTX3.png" alt="" />
+                <img class="left" src="https://s2.loli.net/2023/03/27/tiExMpbk2rWOwL5.png" alt="" />
               </div>
             </aside>
           </div>

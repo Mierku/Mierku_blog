@@ -15,10 +15,6 @@ if (data.value) {
     <main class="site-timeline">
       <div class="tl-header">文章</div>
       <div class="tl-wrapper">
-        <!-- <div class="tl-post-mod_year" v-for="yearMap in articleList">
-          {{ yearMap.year }}
-          <div class="tl-post-mod_month"></div>
-        </div> -->
         <div v-if="articleList.length === 0" class="tl-empty">无文章发布</div>
         <el-collapse v-else v-model="activeName" accordion>
           <el-collapse-item v-for="yearMap in articleList" :title="yearMap.year.toString()" :name="yearMap.year">

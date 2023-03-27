@@ -1,7 +1,7 @@
-name: Docker Image CI & CD
+name: BLOG部署
 
 on:
-  # 在直接推送/pr到Master分支时触发
+  # 在直接推送/pr到Main分支时触发
   push:
     branches: ['main']
 
@@ -37,7 +37,7 @@ jobs:
           # ssh port
           port: 22
           # ssh username
-          username: ${{ secrets.SERVER_USER }}
+          username: ${{ secrets.chekctou }}
           # ssh password
           password: ${{ secrets.SERVER_PASS  }}
           script: |

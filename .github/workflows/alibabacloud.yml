@@ -15,11 +15,11 @@ jobs:
       - name: 登录阿里云的 docker 镜像仓库
         uses: aliyun/acr-login@v1
         with:
-          login-server: https://registry.cn-shenzhen.aliyuncs.com
+          login-server: https://registry.cn-heyuan.aliyuncs.com
           region-id: mierku_blog # 3
           username: '${{ secrets.ACR_USERNAME }}'
           password: '${{ secrets.ACR_PASSWORD }}'
-      - name: 推送到阿里云仓库
+      - name: 推送至阿里云仓库
         run: docker push registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
 
   deploy:

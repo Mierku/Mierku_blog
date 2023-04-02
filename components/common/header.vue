@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useTabList } from '~~/composables/api/useTab'
 import { getTabList } from '~~/composables/api/useTab'
-
+let navList: Array<getTabList>
 interface NavItem {
   id: number
   title: string
@@ -15,8 +15,10 @@ if (process.client) {
   windowRef = ref<Window>(window)
 }
 const { data, error } = await useTabList()
+const unData = unref(data)
 
-const navList: Array<getTabList> = unref(data).data
+navList = unData ? unData.data : undefined
+
 const route = useRoute()
 const curIndex = ref('')
 const isShowSub = ref(false)

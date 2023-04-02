@@ -47,7 +47,7 @@ const currentDate = new Date().toDateString()
   <NuxtLayout>
     <main class="site-lol">
       <div class="site-banner">
-        <img src="image/70827348_p0.jpg" draggable="false" alt="" />
+        <img src="/image/70827348_p0.jpg" draggable="false" alt="" />
         <h1>秘密基地</h1>
       </div>
       <ClientOnly>

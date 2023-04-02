@@ -18,8 +18,8 @@ const item = toRef(props, 'carditem')
 <style lang="scss">
 .links-card {
   height: 90px;
-  max-width: 400px;
-  min-width: 240px;
+  max-width: 460px;
+  min-width: 200px;
   background: rgba(46, 46, 46, 0.6);
 
   transition: all 0.3s ease-in;
@@ -36,7 +36,7 @@ const item = toRef(props, 'carditem')
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    max-width: 240px;
+    max-width: 300px;
     min-width: 100px;
 
     height: 60px;

@@ -1,42 +1,35 @@
 <script lang="ts" setup>
-import { marked } from 'marked'
 import { getArticle } from '~~/composables/api/useArticleList'
-import { UseScrollReturn } from '@vueuse/core'
-import { vScroll } from '@vueuse/components'
-import { vIntersectionObserver } from '@vueuse/components'
-interface tocItem {
-  anchor: string
-  level: number
-  text: string
-}
+import { useElementBounding } from '@vueuse/core'
 const toc = ref('')
 const target = ref(null)
 const isVisible = ref(false)
 const UList = ref<HTMLUListElement>()
 const UItem = ref<HTMLLIElement>()
-const tocItems = ref<Array<tocItem>>([])
 useIntersectionObserver(target, ([{ isIntersecting }]) => {
   isVisible.value = isIntersecting
 })
+
 const article: getArticle = inject('article')
-const tocIndex: Ref<number> = inject('toc')
-function slugify(text) {
-  console.log(text)
-  return (
-    text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      // .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-      .replace(/\-\-+/g, '-') // Replace multiple - with single -
-      .trim()
-  )
+
+let headIndex = 0
+function slugify() {
+  headIndex++
+  return `heading-${headIndex}`
+  // return (
+  //   text
+  //     .toString()
+  //     .toLowerCase()
+  //     .replace(/\s+/g, '-') // Replace spaces with -
+  //     // .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+  //     .replace(/\-\-+/g, '-') // Replace multiple - with single -
+  //     .trim()
+  // )
 }
 
 function generateTOC(items) {
   let html = ''
   let lastLevel = 0
-
   items.forEach((item) => {
     if (item.level > lastLevel) {
       html += '<ul >'
@@ -57,26 +50,14 @@ function generateTOC(items) {
 
   return html
 }
-function getLiDom() {}
-onMounted(() => {
-  const renderer = new marked.Renderer()
 
-  // Override the `heading` method to add TOC entries
-  renderer.heading = (text, level, raw) => {
-    console.log(raw)
-    const anchor = slugify(raw)
-    console.log(anchor)
-    tocItems.value.push({ anchor, level, text })
-    console.log(tocItems)
-    return `<h${level} id="${anchor}">${text}</h${level}>`
-  }
-  const tokens = marked.lexer(article.content)
-  const html = marked.parser(tokens, { renderer })
+onMounted(() => {
+  const tocItems: Ref<{ anchor: string; level: number; text: string }> = inject('toc')
   toc.value = generateTOC(tocItems.value)
 })
 </script>
 <template>
-  <div class="category-box" ref="target">
+  <div ref="target" class="category-box">
     <div :class="['category', isVisible ? '' : 'fixed']">
       <div class="title-wrapper">
         <span class="title">目录</span>
@@ -90,7 +71,9 @@ onMounted(() => {
   padding-top: 64px;
   width: 300px;
   height: fit-content;
-  position: relative;
+  position: absolute;
+  top: 0%;
+  right: 0;
   flex: content;
 }
 .category {

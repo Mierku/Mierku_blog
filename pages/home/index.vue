@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import PostCard from '@/components/Home/PostCard.vue'
+import Me from '@/components/Home/Me.vue'
+import ArtLabel from '@/components/Home/Label.vue'
+import TodoList from '@/components/Home/TodoList.vue'
+import ToPlay from '@/components/Home/ToPlay.vue'
 import { getArticleItem, useArticleList } from '~~/composables/api/useArticleList'
 
 const title = ref("Mierku's Blog")
@@ -10,6 +14,7 @@ const params = reactive({
   wts: 0,
   type: 1,
 })
+const useInfo = useGlobalInfo()
 let storeArticleList: getArticleItem[] = []
 let articleList: getArticleItem[]
 let total: number
@@ -46,8 +51,7 @@ function pre() {}
             <div class="glass"></div>
             <span class="main-title">{{ title }}</span>
             <div class="main-info-wrapper">
-              <p class="main-say">与离别之时,献上约定之花</p>
-              <span class="main-icon"></span>
+              <p class="main-say">{{ useInfo.zhanz.sgn }}</p>
             </div>
           </div>
           <ContactSvg></ContactSvg>
@@ -65,18 +69,12 @@ function pre() {}
               <ClientOnly>
                 <div v-if="total === 0" class="article-empty">暂无文章发布</div>
                 <div v-else class="article-box">
-                  <PostCard v-for="item in articleList" :key="item.aid" :data="item"></PostCard>
-                  <div class="art-ctr-box">
-                    <div class="art-filter">最新</div>
-                    <div class="art-info">
-                      <span>页数:8</span>
-                      <span>当前:1</span>
-                    </div>
-                    <div class="button-box">
-                      <button class="pre-much" @click="pre()">上一页</button>
-                      <button class="next-much" @click="next()">下一页</button>
-                    </div>
-                  </div>
+                  <PostCard
+                    v-for="(item, index) in articleList"
+                    :key="item.aid"
+                    :data="item"
+                    :class="[index >= 4 ? 'cd-big' : '']"
+                  ></PostCard>
                 </div>
               </ClientOnly>
             </div>
@@ -90,12 +88,14 @@ function pre() {}
           <div class="article-wrapper left">
             <div class="article-main">
               <div class="main-title">
-                <span class="text">Article</span>
+                <span class="text">AGURU</span>
               </div>
               <ClientOnly>
-                <div v-if="total === 0" class="article-empty">暂无文章发布</div>
-                <div v-else class="article-box">
-                  <PostCard v-for="item in articleList" :key="item.aid" :data="item"></PostCard>
+                <div class="personal-box">
+                  <TodoList></TodoList>
+                  <Me></Me>
+                  <ArtLabel></ArtLabel>
+                  <ToPlay></ToPlay>
                 </div>
               </ClientOnly>
             </div>
@@ -124,6 +124,7 @@ main {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  background-position: center;
   position: relative;
   height: 100vh;
   width: 100%;
@@ -196,17 +197,9 @@ main {
 }
 // 边
 .aside-card {
-  max-width: 640px;
-  min-width: 400px;
+  width: 18vw;
   height: 100%;
 
-  .anime-mask {
-    z-index: 99;
-    width: 570px;
-    height: 300px;
-
-    background: linear-gradient(0deg, #141414, rgba(0, 0, 0, 0));
-  }
   img {
     object-fit: cover;
     filter: drop-shadow(5px -6px 10px rgba(0, 0, 0, 0.349));
@@ -240,24 +233,7 @@ main {
     border-radius: 4px;
   }
 }
-// 个人精选
-.recommend-wrapper {
-  margin: 36px 0;
-}
-.recommend-box {
-  display: flex;
-  .recommend-item {
-    background: white;
-    margin: 0 12px;
-    height: 240px;
-    flex: 1;
-  }
-  .recommend-item-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
+
 // 专区
 .article-wrapper {
   position: relative;
@@ -272,8 +248,7 @@ main {
   }
 }
 .article-main {
-  width: 76%;
-  height: 980px;
+  width: 100%;
 }
 .article-empty {
   display: flex;
@@ -282,6 +257,7 @@ main {
   font-size: 24px;
 }
 .article-box {
+  width: 80vw;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 30px;
@@ -326,10 +302,34 @@ main {
   background: transparent;
   border: 2px solid rgb(92, 92, 92);
 }
+// personal
+.personal-box {
+  display: grid;
+  width: 80vw;
+  grid-template-columns: repeat(13, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+  grid-gap: 0;
+  height: 560px;
+}
+:deep(.me) {
+  grid-area: 1/7/4/14;
+}
+:deep(.playList) {
+  grid-area: 5/9/15/14;
+}
+:deep(.todoList) {
+  grid-area: 6/1/15/8;
+}
+:deep(.art-label) {
+  grid-area: 1/1/5/6;
+}
 // 联系icon
 :deep(.contact-icon) {
   position: absolute;
   right: 40px;
+}
+:deep(.cur-content) {
+  flex: 1;
 }
 @media screen and (max-width: 1700px) {
   .article-box {
@@ -340,27 +340,57 @@ main {
   .recommend-item:nth-child(4) {
     display: none;
   }
+  .aside-card {
+    width: 200px;
+  }
   .article-box {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 80px;
-    grid-row-gap: 36px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 1vw;
+    grid-row-gap: 30px;
   }
   .content-right {
     max-width: 500px;
   }
 }
 @media screen and (max-width: 860px) {
+  .site-content {
+    padding: 36px 0;
+  }
+  .main-info-wrapper {
+    display: none !important;
+  }
+  :deep(.contact-icon) {
+    display: none !important;
+  }
   .article-wrapper {
     justify-content: center;
   }
   aside {
     display: none;
   }
+  .article-wrapper {
+    border: none;
+  }
+  .cd-big {
+    display: none;
+  }
   .article-box {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 36px;
+  }
+}
+@media screen and (max-width: 540px) {
+  .article-box {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 36px;
+  }
+  .cd-big {
+    display: block;
   }
 }
 </style>

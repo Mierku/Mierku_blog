@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
-import { recordIP, recordPV } from './composables/api/useWebLog'
+// import { recordUV, recordPV } from './composables/api/useWebLog'
+import { getZhanZ } from './composables/api/useZhanZ'
+const { data } = await getZhanZ()
+const info = useGlobalInfo()
 
+if (data.value) {
+  info.storeZhanZ(data.value.data)
+}
 onMounted(async () => {
-  // const y = await recordIP()
-  // const x = await recordPV()
-  // console.log('y', y, 'x', x)
-
-  // Initialize an agent at application startup.
   const nowDate = new Date().getFullYear()
   const fpPromise = FingerprintJS.load()
   const fingerprint3 = useCookie('fingerprint3', {
@@ -22,7 +23,5 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div>
-    <NuxtPage />
-  </div>
+  <NuxtPage />
 </template>

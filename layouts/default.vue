@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { useFps } from '@vueuse/core'
-import { getWebRecord } from '~~/composables/api/useWebLog'
+import { getWebRecord, recordPV, recordUV } from '~~/composables/api/useWebLog'
 let fps = useFps()
 const { data } = await getWebRecord()
+const Route = useRoute()
 const { pv, uv } = data.value.data
 const isWebInfoHidden = ref(false)
+onMounted(() => {
+  recordUV()
+  recordPV()
+})
 </script>
 <template>
   <div :class="[{ isShow: isWebInfoHidden }, 'web-tool']" @click="isWebInfoHidden = !isWebInfoHidden">
@@ -20,7 +25,7 @@ const isWebInfoHidden = ref(false)
   <slot />
 
   <footer>
-    <h4 class="site-maker">Crafted by Mierku</h4>
+    <h4 class="site-maker">(测试版)Crafted by Mierku</h4>
     <p>@ 朽木弥尔的自宅地 <a href="https://beian.miit.gov.cn/" target="_blank">渝ICP备2023002592号</a></p>
   </footer>
 </template>
@@ -91,5 +96,10 @@ footer {
   margin: 0;
   padding: 0;
   font-weight: 300;
+}
+@media screen and (max-width: 860px) {
+  footer {
+    display: none;
+  }
 }
 </style>

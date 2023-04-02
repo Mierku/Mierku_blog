@@ -40,10 +40,4 @@ export const useArticleView = (data: articleRequest) => {
     method: 'POST',
     body,
   })
-  // return useAsyncData(`article_stat_${body.aid}`, () =>
-  //   $fetch('http://127.0.0.1:4400/x/mierku/article/type', {
-  //     method: 'POST',
-  //     body,
-  //   })
-  // )
 }

@@ -1,4 +1,5 @@
 import { UseFetchOptions } from '@vueuse/core'
+import { url } from 'inspector'
 import { AsyncData } from 'nuxt/dist/app/composables'
 import { Base } from '~~/.nuxt/components'
 export interface API<T> {
@@ -6,7 +7,7 @@ export interface API<T> {
   message: string
   code: number
 }
-export interface RequestOptions {
+export interface RequestOptions1 {
   url: string
   method?: 'GET' | 'get' | Ref<'GET' | 'get'> | 'POST' | 'post'
   params?: Record<string, any>
@@ -16,7 +17,15 @@ export interface RequestOptions {
   lazy?: boolean
   server?: boolean
 }
-interface FetchOptions extends Omit<RequestOptions, 'url'> {
+
+export interface RequestOptions2 {
+  url: string
+  method?: 'GET' | 'get' | Ref<'GET' | 'get'> | 'POST' | 'post'
+  params?: Record<string, any>
+  query?: Record<string, any>
+  body?: Record<string, any>
+}
+interface FetchOptions extends Omit<RequestOptions1, 'url'> {
   headers?: Record<string, any>
   key?: string
   baseURL?: string
@@ -26,7 +35,7 @@ interface FetchOptions extends Omit<RequestOptions, 'url'> {
 }
 
 // export const useBlogFetch = $fetch.create({ baseURL: 'http://127.0.0.1:4400' })
-export async function useRequest<T>(options: RequestOptions): Promise<{ data: Ref<T>; error: Ref<Error | null> }> {
+export async function useRequest<T>(options: RequestOptions1): Promise<{ data: Ref<T>; error: Ref<Error | null> }> {
   const runtimeConfig = useRuntimeConfig()
   const baseURL = runtimeConfig.public.baseURL
   const { url, method = 'GET', params, query, body, key, lazy, server } = options
@@ -38,4 +47,16 @@ export async function useRequest<T>(options: RequestOptions): Promise<{ data: Re
   const { data, error } = await useFetch<T>(url, fetchOptions)
 
   return { data, error }
+}
+
+interface CSROptions {
+  body: Record<string, any>
+  baseURL: string
+  method: 'GET' | 'get' | Ref<'GET' | 'get'> | 'POST' | 'post'
+}
+export async function useFetchReq<T>(options: RequestOptions2): Promise<T> {
+  const runtimeConfig = useRuntimeConfig()
+  const baseURL = runtimeConfig.public.baseURL
+  const { url, ...others } = options
+  return $fetch(url, { others, baseURL })
 }

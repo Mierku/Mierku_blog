@@ -5,33 +5,30 @@ import { useArticle, useArticleView } from '~~/composables/api/useArticle'
 
 import { API } from '~~/utils/useRequest'
 //引入marked解析模块 与 代码高亮插件 以及对应的样式文件
+interface tocItem {
+  anchor: string
+  level: number
+  text: string
+}
 let headers
 const tocIndex = ref<number>()
+const tocItems = ref<Array<tocItem>>([])
 const array = ref<Array<number>>([])
 const { params } = useRoute()
 const Router = useRouter()
+let headIndex = 0
 const options = {
   query: { aid: +params.id },
   body: { aid: +params.id, type: 0 },
 }
-// const { data } = await useArticle(options)
-// articleData = data.value.data
 
-// if (!data.value) {
-// 	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-// }
-// // const { data } = await useArticle(options)
-// 文章数据获取
-// const { data } = await useAsyncData<API<getArticle>>(`article/${params.id}`, () =>
-//   $fetch(`http://127.0.0.1:4400/x/mierku/article/?aid=${params.id}`)
-// )
 // 改动
 const { data } = await useArticle(params.id.toString())
 
 if (!data.value) {
-  console.log('跳转')
   Router.replace('/')
 }
+
 // 文章右侧高亮
 const throttledFn = useThrottleFn(() => {
   nextTick(() => {
@@ -64,6 +61,49 @@ await useArticleView(options)
     console.log('文章浏览量加一失败')
   })
 const article = data.value.data
+const keywords = article.tags.map((data) => data.name).join(',')
+useHead({
+  title: article.title,
+  meta: [
+    { name: 'description', content: article.desc },
+    { name: 'keywords', content: keywords },
+    { name: 'author', content: article.author.name || '无名' },
+  ],
+})
+function slugify() {
+  headIndex++
+  return `heading-${headIndex}`
+  // return (
+  //   text
+  //     .toString()
+  //     .toLowerCase()
+  //     .replace(/\s+/g, '-') // Replace spaces with -
+  //     // .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+  //     .replace(/\-\-+/g, '-') // Replace multiple - with single -
+  //     .trim()
+  // )
+}
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  pedantic: false,
+  gfm: true,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false,
+  highlight: function (code) {
+    return hljs.highlightAuto(code).value
+  },
+})
+const renderer = new marked.Renderer()
+// Override the `heading` method to add TOC entries
+renderer.heading = (text, level, raw) => {
+  const anchor = slugify()
+  tocItems.value.push({ anchor, level, text })
+  return `<h${level} id="${anchor}">${text}</h${level}>`
+}
+marked.use({ renderer })
+const html = marked.parse(article.content)
 
 onMounted(() => {
   nextTick(() => {
@@ -72,8 +112,9 @@ onMounted(() => {
     // 观看超过5s 记录一次pv
   })
 })
+provide('toc', tocItems)
+provide('articleDoc', html)
 provide('article', article)
-provide('toc', tocIndex)
 </script>
 
 <template>
@@ -118,9 +159,30 @@ img {
   display: flex;
   justify-content: center;
   .post-content {
-    width: 1440px;
+    position: relative;
+    max-width: 1440px;
+    min-width: 400px;
     display: flex;
     justify-content: space-between;
+  }
+}
+:deep(.cur-content) {
+  margin-right: 300px;
+}
+@media screen and (max-width: 940px) {
+  .site-banner {
+    height: 320px;
+  }
+  :deep(.category-box) {
+    display: none;
+  }
+  :deep(.cur-content) {
+    margin-right: 0px;
+  }
+}
+@media screen and (max-width: 860px) {
+  .site-banner {
+    height: 240px;
   }
 }
 </style>

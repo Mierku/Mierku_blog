@@ -1,5 +1,12 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'zh-cmn-Hans',
+      },
+    },
+  },
   runtimeConfig: {
     isServer: true,
     // // The private keys which are only available server-side
@@ -10,6 +17,6 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@element-plus/nuxt', '@vueuse/nuxt'],
+  modules: ['@element-plus/nuxt', '@vueuse/nuxt', '@pinia/nuxt'],
   css: ['@/assets/style/base.scss'],
 })

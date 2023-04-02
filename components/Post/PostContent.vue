@@ -11,28 +11,20 @@ const params = reactive({
   wts: 0,
   type: 1,
 })
+const markdownToHtml = ref('')
 const article: getArticle = inject('article')
-const markdownToHtml = shallowRef()
+//基本配置与代码高亮配置
+const content: string = inject('articleDoc')
+
+// const markdownToHtml =
 const cdate = dayjs(article.cdate).format('YYYY-MM-DD HH:mm:ss')
 const { data: getArticleList } = await useArticleList(params)
 const articleList: getArticleItem[] = getArticleList.value.data.rows
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  pedantic: false,
-  gfm: true,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false,
-  highlight: function (code) {
-    return hljs.highlightAuto(code).value
-  },
-})
-//基本配置与代码高亮配置
+console.log(getArticleList)
+// })
+
 onMounted(() => {
-  markdownToHtml.value = marked(article.content, {
-    breaks: true,
-  })
+  markdownToHtml.value = content
 })
 </script>
 <template>

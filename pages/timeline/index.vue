@@ -34,7 +34,8 @@ if (data.value) {
 .site-timeline {
   padding: 60px;
   margin-top: 46px;
-  width: 1440px;
+  min-width: 300px;
+  max-width: 1440px;
   min-height: 100vh;
   margin: auto;
   color: azure;
@@ -72,5 +73,23 @@ if (data.value) {
 :deep(.el-collapse-item__header) {
   background: transparent;
   color: white;
+}
+
+@media screen and (max-width: 860px) {
+  .site-timeline {
+    padding: 60px 24px;
+  }
+  .tl-wrapper {
+    padding: 0px;
+    height: 80vh;
+  }
+  .el-collapse {
+    margin-top: 30px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    border: none;
+  }
 }
 </style>

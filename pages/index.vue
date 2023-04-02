@@ -2,17 +2,15 @@
 // definePageMeta({
 // 	documentDriven: false,
 
-import { recordIP, recordPV, recordUV } from '~~/composables/api/useWebLog'
+import { recordPV, recordUV } from '~~/composables/api/useWebLog'
 
 // })
 async function test() {
-  const { data } = await recordPV()
-  await recordIP()
+  await recordPV()
   await recordUV()
-  console.log(data.value)
 }
 </script>
 <template>
   <button @click="test()">发送请i去</button>
-  <NuxtLayout></NuxtLayout>
+  <!-- <NuxtLayout></NuxtLayout> -->
 </template>

@@ -18,7 +18,7 @@ if (detail.lcards) {
 console.log('lacards', lcards)
 </script>
 <template>
-  <NuxtLayout name="others">
+  <NuxtLayout>
     <figure class="others-banner">
       <client-only>
         <img class="banner" ref="banner" :src="detail.banner" alt="banner" draggable="false" />
@@ -55,7 +55,9 @@ console.log('lacards', lcards)
 }
 .links-content-wrapper {
   margin: 80px auto;
-  width: 1680px;
+  padding: 0 40px;
+  max-width: 1680px;
+  min-width: 240px;
 }
 .links-title {
   color: rgba($color: #c4fff5, $alpha: 0.9);
@@ -93,12 +95,10 @@ console.log('lacards', lcards)
   }
 }
 
-@media screen and (max-width: 1680px) {
-  .links-site {
-    width: 100%;
-  }
-}
 @media screen and (max-width: 1200px) {
+  .others-banner {
+    height: 400px;
+  }
   .links-box {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -112,10 +112,20 @@ console.log('lacards', lcards)
 }
 // 变化字体
 @media screen and (max-width: 800px) {
+  .others-banner {
+    height: 340px;
+  }
+
+  .links-content-wrapper {
+    padding: 0;
+  }
   .links-box {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
+  }
+}
+@media screen and (max-width: 520px) {
+  .links-box {
+    grid-template-columns: 1fr;
   }
 }
 </style>

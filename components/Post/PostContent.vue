@@ -20,7 +20,6 @@ const content: string = inject('articleDoc')
 const cdate = dayjs(article.cdate).format('YYYY-MM-DD HH:mm:ss')
 const { data: getArticleList } = await useArticleList(params)
 const articleList: getArticleItem[] = getArticleList.value.data.rows
-console.log(getArticleList)
 // })
 
 onMounted(() => {
@@ -75,7 +74,12 @@ onMounted(() => {
       </div>
       <div class="author-relate-box">
         <div class="post-content">
-          <PostCard v-for="item in articleList" :key="item.aid" :data="item"></PostCard>
+          <PostCard
+            v-for="(item, index) in articleList"
+            :key="item.aid"
+            :data="item"
+            :class="[index >= 1 ? 'cd-ssm' : '', index >= 2 ? 'cd-big' : '']"
+          ></PostCard>
         </div>
       </div>
     </div>
@@ -198,6 +202,22 @@ onMounted(() => {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     margin-top: 36px;
+  }
+}
+@media screen and (max-width: 860px) {
+  .author-relate-box .post-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cd-big {
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  .author-relate-box .post-content {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .cd-ssm {
+    display: none;
   }
 }
 </style>

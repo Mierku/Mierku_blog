@@ -39,13 +39,15 @@ const maskDown = ref(false)
 <style lang="scss" scoped>
 // 图片
 .post-cover {
-  max-width: 320px;
-  height: 187px;
+  width: 100%;
   background-color: aqua;
   position: relative;
+  padding-top: 72%;
   border-radius: 4px;
   overflow: hidden;
   img {
+    position: absolute;
+    top: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;

@@ -70,13 +70,15 @@ const isFixed = computed(() => {
         <NuxtLink class="menu-item_to" :to="item.to">
           {{ item.title }}
         </NuxtLink>
-        <ul v-if="item.children" class="submenu">
-          <li class="submenu-item" v-for="subItem in item?.children" :key="subItem.id">
-            <NuxtLink class="submenu-item_to" :to="subItem.to">
-              {{ subItem.title }}
-            </NuxtLink>
-          </li>
-        </ul>
+        <transition name="collapse">
+          <ul v-if="item.children" class="submenu">
+            <li class="submenu-item" v-for="subItem in item?.children" :key="subItem.id">
+              <NuxtLink class="submenu-item_to" :to="subItem.to">
+                {{ subItem.title }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </transition>
       </div>
       <div class="slider"></div>
     </nav>
@@ -361,9 +363,12 @@ const isFixed = computed(() => {
       }
       .submenu {
         &.showSub {
+          .submenu-item {
+            // animation: menu-to-down 0.4s ease-in-out 1 both;
+            height: 20px;
+            opacity: 1;
+          }
           .submenu-box {
-            display: flex;
-            animation: menu-to-down 0.4s ease-in-out 1 both;
           }
           .list-icon {
             transform: translateY(-50%) rotateZ(0deg);
@@ -390,14 +395,15 @@ const isFixed = computed(() => {
     }
 
     .submenu-box {
-      display: none;
-      opacity: 0;
-      height: 0;
+      height: auto;
+      display: flex;
       flex-direction: column;
       align-items: center;
       .submenu-item {
+        transition: all 0.4s ease-in-out;
+        height: 0;
+        opacity: 0;
         font-size: 14px;
-        margin-bottom: 12px;
       }
     }
   }
@@ -415,12 +421,12 @@ const isFixed = computed(() => {
 @keyframes menu-to-down {
   0% {
     opacity: 0;
-    height: 0;
+    height: 0px;
     transform: translateY(-50%);
   }
   100% {
     opacity: 1;
-    height: 56px;
+    height: 18px;
     transform: translateY(0);
   }
 }

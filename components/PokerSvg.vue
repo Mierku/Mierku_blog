@@ -1,7 +1,6 @@
 <template>
   <div class="pk-ct">
     <div class="poker_01">
-      <div class="dot"></div>
       <div class="mask">
         <svg width="204" height="30" viewBox="0 0 204 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <clipPath id="poker-mask">
@@ -41,14 +40,7 @@
   background-repeat: no-repeat;
   animation: gradient 6s ease infinite;
 }
-.dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 50px;
-  width: 100%;
-  background-image: url('image/dot.gif');
-}
+
 .mask {
   display: flex;
   justify-content: center;

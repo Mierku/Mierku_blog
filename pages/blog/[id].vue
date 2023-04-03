@@ -106,7 +106,7 @@ provide('article', article)
   <NuxtLayout>
     <main>
       <div class="site-banner">
-        <img src="/image/70827348_p0.jpg" alt="banner图" />
+        <img src="https://s2.loli.net/2023/04/03/2oeTNcKIpuHU4Aj.jpg" alt="banner图" />
       </div>
       <div class="site-content">
         <div class></div>

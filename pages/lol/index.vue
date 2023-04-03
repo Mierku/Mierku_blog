@@ -34,7 +34,6 @@ const load = async () => {
   preloadLol.wts = +((mark.pour.isTop ? '1.' : '0.') + new Date(mark.pour.cdate).getTime())
   const { data } = await useLollist(preloadLol)
   myLol.rows.push(...data.rows)
-  console.log(data)
   loading.value = false
 }
 
@@ -46,7 +45,7 @@ const currentDate = new Date().toDateString()
 <template>
   <NuxtLayout>
     <figure class="site-banner">
-      <img src="/image/70827348_p0.jpg" draggable="false" alt="" />
+      <img src="https://s2.loli.net/2023/04/03/2oeTNcKIpuHU4Aj.jpg" draggable="false" alt="" />
       <h1>秘密基地</h1>
     </figure>
     <main class="site-lol">

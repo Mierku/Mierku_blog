@@ -11,7 +11,6 @@ const timeFormat = article.cdate ? useTimeFormat(article.cdate) : '时间'
 const viewFormat = article?.stat?.view ? useNumFormat(article.stat.view) : '浏览量'
 const likeFormat = article?.stat?.like ? useNumFormat(article.stat.like) : '点赞'
 
-console.log(article?.stat)
 const maskDown = ref(false)
 </script>
 <template>

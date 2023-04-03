@@ -7,15 +7,13 @@ const route = useRoute()
 const rname = route.params.slug
 let detail: LinksPageDetailType
 const lcards = reactive<Array<LinksCardType>>([])
-let scrollview
 const { data } = await getLinksPageDetail(rname.toString())
-console.log(data)
+
 detail = data.value.data
-console.log(rname, detail)
+
 if (detail.lcards) {
   lcards.push(...detail.lcards)
 }
-console.log('lacards', lcards)
 </script>
 <template>
   <NuxtLayout>

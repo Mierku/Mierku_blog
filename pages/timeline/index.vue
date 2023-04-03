@@ -4,9 +4,8 @@ import TimeLineCard from '~~/components/timeline/Card.vue'
 const activeName = ref('1')
 const { data } = await useTimeLine()
 let articleList = reactive<Array<TimeLineItem>>([])
-console.log(data)
+
 if (data.value) {
-  console.log(data)
   articleList = data.value.data
 }
 </script>

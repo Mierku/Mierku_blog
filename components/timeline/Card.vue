@@ -3,14 +3,11 @@ import { timeLineChild } from '@/composables/api/useArticleList'
 const isShow = ref(false)
 const deShow = refDebounced(isShow, 180)
 const { article } = defineProps<{ article: timeLineChild }>()
-console.log(article)
-const Router = useRouter()
 </script>
 <template>
   <div :class="['line-card-wrapper', isShow ? 'unfold' : '']">
     <NuxtLink :to="`blog/${article.aid}`">
       <div class="line-card-box">
-        <!-- <slot name="title"></slot> -->
         <div class="line-card">
           <span>{{ article.title }}</span>
           <span> {{ useDateFormat(article.cdate) }}</span>

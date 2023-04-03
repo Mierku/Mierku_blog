@@ -2,16 +2,18 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      htmlAttrs: {
-        lang: 'zh-cmn-Hans',
-      },
+      title: "Mierku's Blog",
+      meta: [
+        {
+          name: 'description',
+          content: '兴趣使然的弥尔君',
+        },
+        { name: 'keywords', content: '博客,blog,技术,生活' },
+      ],
     },
   },
   runtimeConfig: {
     isServer: true,
-    // // The private keys which are only available server-side
-    // apiSecret: '',
-    // Keys within public are also exposed client-side
     public: {
       baseURL: '',
     },

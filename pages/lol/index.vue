@@ -45,11 +45,11 @@ const currentDate = new Date().toDateString()
 </script>
 <template>
   <NuxtLayout>
+    <figure class="site-banner">
+      <img src="/image/70827348_p0.jpg" draggable="false" alt="" />
+      <h1>秘密基地</h1>
+    </figure>
     <main class="site-lol">
-      <div class="site-banner">
-        <img src="/image/70827348_p0.jpg" draggable="false" alt="" />
-        <h1>秘密基地</h1>
-      </div>
       <ClientOnly>
         <div class="lol-wrapper">
           <el-empty description="description" v-if="isNull" />
@@ -110,13 +110,14 @@ const currentDate = new Date().toDateString()
               </template>
             </el-skeleton>
             <article class="lol-display" v-for="item in myLol.rows" :key="item.pour.id">
-              <span class="Top" v-if="item.pour.isTop">置顶</span>
+              <span class="Top" v-if="item.pour.isTop">顶</span>
               <section class="art-top">
                 <div class="lol_author-info">
                   <div class="avatar"><img :src="item.author.avatar" alt="头像" /></div>
                   <span class="author">{{ item.author.name }}</span>
+                  <div class="split"></div>
+                  <span class="cdate">{{ useDateFormat(item.pour.cdate.toString()) }}</span>
                 </div>
-                <span class="cdate">{{ useDateFormat(item.pour.cdate.toString()) }}</span>
               </section>
               <p class="content">{{ item.pour.content }}</p>
             </article>
@@ -133,12 +134,16 @@ const currentDate = new Date().toDateString()
 .site-lol {
   width: 100%;
   color: white;
+  // max-width: 1440px;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
 }
 .site-banner {
   width: 100%;
   height: 400px;
   position: relative;
+  color: white;
   h1 {
     position: absolute;
     left: 50%;
@@ -155,15 +160,14 @@ img {
 }
 .lol-wrapper {
   padding: 60px 60px 60px 60px;
-  min-width: 300px;
-  max-width: 1440px;
-  margin: 60px auto;
+  width: 1440px;
+  margin: 60px 20px;
   border-radius: 6px;
   border: 1px solid white;
 }
 .lol-display {
   width: 100%;
-  padding: 20px 40px;
+  padding: 20px 24px;
   margin: 34px 0;
   border-radius: 4px;
   position: relative;
@@ -173,7 +177,7 @@ img {
     position: absolute;
     left: 0;
     top: 0;
-    width: 50px;
+    width: 30px;
     height: 26px;
     background: linear-gradient(90deg, #00ffc2 -11.76%, #2c68dc 120.59%);
     text-align: center;
@@ -196,6 +200,12 @@ img {
     display: flex;
     margin-bottom: 8px;
     align-items: flex-end;
+    .split {
+      margin: 0px 12px;
+      height: 18px;
+      width: 2px;
+      background-color: rgb(75, 75, 75);
+    }
 
     .avatar {
       width: 46px;
@@ -232,6 +242,13 @@ img {
 @media screen and (max-width: 860px) {
   .site-banner {
     height: 240px;
+  }
+  .lol-wrapper {
+    padding: 0px 12px;
+    min-width: 300px;
+    max-width: 1440px;
+    margin: 60px auto;
+    border: none;
   }
 }
 </style>

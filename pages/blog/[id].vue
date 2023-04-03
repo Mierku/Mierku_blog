@@ -53,13 +53,7 @@ const throttledFn = useThrottleFn(() => {
   })
 }, 100)
 // 页面浏览量
-await useArticleView(options)
-  .then((res) => {
-    console.log('文章浏览量加一')
-  })
-  .catch((err) => {
-    console.log('文章浏览量加一失败')
-  })
+useArticleView(options)
 const article = data.value.data
 const keywords = article.tags.map((data) => data.name).join(',')
 useHead({
@@ -73,15 +67,6 @@ useHead({
 function slugify() {
   headIndex++
   return `heading-${headIndex}`
-  // return (
-  //   text
-  //     .toString()
-  //     .toLowerCase()
-  //     .replace(/\s+/g, '-') // Replace spaces with -
-  //     // .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-  //     .replace(/\-\-+/g, '-') // Replace multiple - with single -
-  //     .trim()
-  // )
 }
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -121,7 +106,7 @@ provide('article', article)
   <NuxtLayout>
     <main>
       <div class="site-banner">
-        <img src="http://localhost:3000/image/70827348_p0.jpg" alt="" />
+        <img src="/image/70827348_p0.jpg" alt="banner图" />
       </div>
       <div class="site-content">
         <div class></div>

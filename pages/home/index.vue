@@ -137,6 +137,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    animation: 0.4s ease-out first-turnup 1;
     .main-title {
       font-size: 42px;
       margin-bottom: 20px;
@@ -391,6 +392,16 @@ main {
   }
   .cd-big {
     display: block;
+  }
+}
+@keyframes first-turnup {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }
 </style>

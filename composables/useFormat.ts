@@ -16,5 +16,5 @@ export const useTimeFormat = (date: string) => {
   return dayjs().to(dayjs(date))
 }
 export const useDateFormat = (date: string) => {
-  return dayjs(date).format('YYYY年MM月DD日 HH:mm:ss')
+  return dayjs(date).format('YYYY年MM月DD日')
 }

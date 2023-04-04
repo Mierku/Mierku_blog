@@ -13,7 +13,7 @@ onMounted(async () => {
   const fpPromise = FingerprintJS.load()
   const fingerprint3 = useCookie('fingerprint3', {
     expires: new Date(new Date().setFullYear(nowDate + 1)),
-    domain: '.mierku.top',
+    domain: 'www.mierku.top',
   })
   ;(async () => {
     // Get the visitor identifier when you need it.

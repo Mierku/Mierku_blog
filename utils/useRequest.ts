@@ -24,6 +24,7 @@ export interface RequestOptions2 {
   params?: Record<string, any>
   query?: Record<string, any>
   body?: Record<string, any>
+  credential?: boolean
 }
 interface FetchOptions extends Omit<RequestOptions1, 'url'> {
   headers?: Record<string, any>

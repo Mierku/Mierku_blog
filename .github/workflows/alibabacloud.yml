@@ -41,10 +41,10 @@ jobs:
           # ssh password
           password: ${{ secrets.SERVER_PASS  }}
           script: |
-            docker stop blog-nuxt
-            docker rm blog-nuxt 
-            dcoker rmi -f blog-nuxt
+            docker stop Nuxt-blog
+            docker rm -f Nuxt-blog
+            dcoker rmi registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
             docker login --username=$ACR_USERNAME registry.cn-heyuan.aliyuncs.com
             echo $ACR_PASS
             docker pull registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
-            docker run  -d --restart=always -p 3000:3000 --name blog-nuxt --net blog-api_mierku_net registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1
+            docker run  -d --restart=always -p 3000:3000 --name Nuxt-blog --net blog-api_mierku_net registry.cn-heyuan.aliyuncs.com/mierku_blog/blog-nuxt:1

@@ -5,11 +5,10 @@ interface WebRecord {
   uv: number
 }
 export const recordPV = () => {
-  // return useAsyncData('pv', () => $fetch('http://127.0.0.1:4400/web/x', { credentials: 'include' }))
   return useFetchReq({ url: '/web/x', method: 'GET' })
 }
 export const recordUV = () => {
-  return useFetchReq({ url: '/web/z', method: 'GET', credential: true })
+  return useFetchReq({ url: '/web/z', method: 'GET', credentials: 'include' })
 }
 export const getWebRecord = () => {
   return useRequest<API<WebRecord>>({ url: '/web/pv_uv', method: 'GET' })

@@ -109,7 +109,6 @@ provide('article', article)
         <img src="https://s2.loli.net/2023/04/03/2oeTNcKIpuHU4Aj.jpg" alt="banner图" />
       </div>
       <div class="site-content">
-        <div class></div>
         <div class="post-content">
           <PostContent></PostContent>
           <PostCategory></PostCategory>

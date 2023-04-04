@@ -36,7 +36,6 @@ body {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   fill: currentColor;
-  line-height: 1.625rem;
 }
 
 html,
@@ -49,6 +48,7 @@ textarea {
 }
 
 .markdown-body {
+  line-height: 1.625rem;
   hr {
     height: 2px;
     border: 0;

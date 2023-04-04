@@ -31,9 +31,7 @@ onMounted(() => {
     <div class="title-box">
       <h1 class="title">{{ article.title }}</h1>
     </div>
-
     <article v-html="markdownToHtml" class="markdown-body"></article>
-
     <div class="cur-info-box">
       <div class="author-info">
         <div class="author-avatar">

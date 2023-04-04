@@ -108,7 +108,7 @@ const isFixed = computed(() => {
   <div @click.stop="isShowAside = !isShowAside" :class="[isShowAside ? 'showAside' : 'noAside', 'aside-wrapper']">
     <aside @click.stop class="site-aside">
       <div class="aside-logo">
-        <el-avatar class="header-avatar" :src="useInfo.zhanz.avatar"></el-avatar>
+        <el-avatar class="aside-avatar" :src="useInfo.zhanz.avatar"></el-avatar>
         <span>朽木弥尔的自宅地</span>
         <ContactSvg></ContactSvg>
       </div>
@@ -325,10 +325,11 @@ const isFixed = computed(() => {
       align-items: center;
       width: 100%;
       margin-bottom: 24px;
-      .header-avatar {
+      .aside-avatar {
         width: 64px;
         height: 64px;
         margin-bottom: 24px;
+        background: none;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
       }
       span {
@@ -336,7 +337,7 @@ const isFixed = computed(() => {
         letter-spacing: 1px;
         font-weight: 400;
         color: rgb(216, 216, 216);
-        margin-bottom: 6px;
+        margin-bottom: 12px;
       }
     }
     .aside-nav {
@@ -411,9 +412,9 @@ const isFixed = computed(() => {
     width: 80%;
     flex-direction: row;
     justify-content: space-around;
+    height: auto;
     svg {
       width: 18px;
-      margin-bottom: 20px;
     }
   }
 }

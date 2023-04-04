@@ -31,7 +31,9 @@ onMounted(() => {
     <div class="title-box">
       <h1 class="title">{{ article.title }}</h1>
     </div>
-    <div v-html="markdownToHtml" class="markdown-body"></div>
+
+    <article v-html="markdownToHtml" class="markdown-body"></article>
+
     <div class="cur-info-box">
       <div class="author-info">
         <div class="author-avatar">
@@ -73,7 +75,7 @@ onMounted(() => {
         <span class="pulishtime">发布日期: {{ cdate }}</span>
       </div>
       <div class="author-relate-box">
-        <div class="post-content">
+        <div class="post-relate-content">
           <PostCard
             v-for="(item, index) in articleList"
             :key="item.aid"
@@ -88,7 +90,7 @@ onMounted(() => {
 <style lang="scss">
 .cur-content {
   padding: 32px;
-  width: 1100px;
+  width: 100%;
 }
 .cur-category {
   background: #18181b;
@@ -196,7 +198,7 @@ onMounted(() => {
   height: 360px;
   background: #272727;
 
-  .post-content {
+  .post-relate-content {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -204,8 +206,13 @@ onMounted(() => {
     margin-top: 36px;
   }
 }
+.markdown-body {
+  width: 1100px;
+}
+@media screen and (max-width: 1475px) {
+}
 @media screen and (max-width: 860px) {
-  .author-relate-box .post-content {
+  .author-relate-box .post-relate-content {
     grid-template-columns: repeat(2, 1fr);
   }
   .cd-big {
@@ -213,7 +220,7 @@ onMounted(() => {
   }
 }
 @media screen and (max-width: 480px) {
-  .author-relate-box .post-content {
+  .author-relate-box .post-relate-content {
     grid-template-columns: repeat(1, 1fr);
   }
   .cd-ssm {
@@ -222,99 +229,104 @@ onMounted(() => {
 }
 </style>
 <style lang="scss">
+@import '@/assets/style/night.scss';
+
 .markdown-body {
-  p,
-  li {
-    margin: 16px 0;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    margin: 34px 0;
-  }
-  p {
-    color: #cecfd1;
-    letter-spacing: 1px;
-    line-height: 24px;
-  }
-  h1 {
-    color: #dedede;
-  }
-  h2 {
-    color: #dedede;
-  }
-  pre {
-    background: #18181b;
-    box-sizing: border-box;
-    border-radius: 8px;
-    padding: 24px;
-    width: 100%;
-    word-wrap: normal;
-  }
-  code {
-    //撒大苏打
-    font-family: 'Source Code Pro', monospace, Helvetica, Tahoma, Arial, STXihei, 'STHeiti Light', 'Microsoft YaHei',
-      sans-serif;
-    font-size: 16px;
-    width: 100%;
-    white-space: normal;
-    word-wrap: normal;
-    white-space: pre-wrap;
-    &::selection {
-      background-color: rgba(179, 179, 179, 0.2);
-    }
-    span {
-      &::selection {
-        background-color: rgba(179, 179, 179, 0.2);
-      }
-    }
-    & > span {
-      line-height: 28px;
-    }
-  }
-  ul {
-    margin-left: 20px;
-    text-indent: 10px;
-    li {
-      &::marker {
-        content: '■';
-        display: block;
-        width: 5px;
-        height: 5px;
-      }
-    }
-  }
-  ol {
-    margin-left: 20px;
-    text-indent: 10px;
-    li {
-      &::marker {
-        content: counter(list-item) '.';
-        display: block;
-        width: 5px;
-        height: 5px;
-      }
-    }
-  }
-  blockquote {
-    background: #18181b;
-    border-left: 10px solid #272727;
-    margin: 1.5em 10px;
-    padding: 0.5em 10px;
-    quotes: '\201C''\201D''\2018''\2019';
-    &:before {
-      color: #fde7ed;
-      content: open-quote;
-      font-size: 4em;
-      line-height: 0.1em;
-      margin-right: 0.25em;
-      vertical-align: -0.4em;
-    }
-    p {
-      display: inline;
-    }
-  }
+  width: 100%;
 }
+// .markdown-body {
+//   p,
+//   li {
+//     margin: 16px 0;
+//   }
+//   h1,
+//   h2,
+//   h3,
+//   h4,
+//   h5 {
+//     margin: 34px 0;
+//   }
+//   p {
+//     color: #cecfd1;
+//     letter-spacing: 1px;
+//     line-height: 24px;
+//   }
+//   h1 {
+//     color: #dedede;
+//   }
+//   h2 {
+//     color: #dedede;
+//   }
+//   pre {
+//     background: #18181b;
+//     box-sizing: border-box;
+//     border-radius: 8px;
+//     padding: 24px;
+//     width: 100%;
+//     word-wrap: normal;
+//   }
+//   code {
+//     //撒大苏打
+//     font-family: 'Source Code Pro', monospace, Helvetica, Tahoma, Arial, STXihei, 'STHeiti Light', 'Microsoft YaHei',
+//       sans-serif;
+//     font-size: 16px;
+//     width: 100%;
+//     white-space: normal;
+//     word-wrap: normal;
+//     white-space: pre-wrap;
+//     &::selection {
+//       background-color: rgba(179, 179, 179, 0.2);
+//     }
+//     span {
+//       &::selection {
+//         background-color: rgba(179, 179, 179, 0.2);
+//       }
+//     }
+//     & > span {
+//       line-height: 28px;
+//     }
+//   }
+//   ul {
+//     margin-left: 20px;
+//     text-indent: 10px;
+//     li {
+//       &::marker {
+//         content: '■';
+//         display: block;
+//         width: 5px;
+//         height: 5px;
+//       }
+//     }
+//   }
+//   ol {
+//     margin-left: 20px;
+//     text-indent: 10px;
+//     li {
+//       &::marker {
+//         content: counter(list-item) '.';
+//         display: block;
+//         width: 5px;
+//         height: 5px;
+//       }
+//     }
+//   }
+//   blockquote {
+//     background: #18181b;
+//     border-left: 10px solid #272727;
+//     margin: 1.5em 10px;
+//     padding: 0.5em 10px;
+//     quotes: '\201C''\201D''\2018''\2019';
+//     &:before {
+//       color: #fde7ed;
+//       content: open-quote;
+//       font-size: 4em;
+//       line-height: 0.1em;
+//       margin-right: 0.25em;
+//       vertical-align: -0.4em;
+//     }
+//     p {
+//       display: inline;
+//     }
+//   }
+// }
 </style>

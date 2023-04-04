@@ -145,16 +145,24 @@ img {
   justify-content: center;
   .post-content {
     position: relative;
-    max-width: 1440px;
-    min-width: 400px;
     display: flex;
     justify-content: space-between;
+    width: 1440px;
+    padding-right: 300px;
   }
 }
 :deep(.cur-content) {
-  margin-right: 300px;
+  // margin-right: 300px;
+}
+@media screen and (max-width: 1475px) {
+  .post-content {
+    width: 100% !important;
+  }
 }
 @media screen and (max-width: 940px) {
+  .post-content {
+    padding-right: 0px !important;
+  }
   .site-banner {
     height: 320px;
   }

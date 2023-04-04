@@ -49,7 +49,7 @@ function pre() {}
         <figure class="home-paint" ref="firstPaint">
           <div class="figure-info">
             <div class="glass"></div>
-            <span class="main-title">{{ title }}</span>
+            <h2 class="main-title">{{ title }}</h2>
             <div class="main-info-wrapper">
               <p class="main-say">{{ useInfo.zhanz.sgn }}</p>
             </div>

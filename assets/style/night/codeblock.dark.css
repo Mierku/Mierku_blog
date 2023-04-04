@@ -1,0 +1,33 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/** code highlight */
+
+pre {
+  background: #18181b;
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 24px;
+  word-wrap: normal;
+  overflow: scroll;
+}
+pre::-webkit-scrollbar {
+  width: 0 !important;
+}
+/* 设置滚动条的样式 */
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 6px;
+  border-radius: 8px;
+}
+/* 滚动槽 */
+pre::-webkit-scrollbar-track {
+  /* -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5); */
+  background-color: #555;
+}
+/* 滚动条滑块 */
+pre::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #333;
+  /* -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5); */
+}

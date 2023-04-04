@@ -56,11 +56,12 @@
   display: flex;
   flex-direction: column;
   width: 40px;
-  align-content: space-between;
+  height: 30vh;
+  justify-content: space-between;
 
   svg {
-    width: 30px;
-    margin-bottom: 64px;
+    width: 24px;
+    height: 24px;
   }
 }
 </style>
